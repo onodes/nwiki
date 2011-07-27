@@ -1,14 +1,6 @@
-require "nwiki"
-
-require "rack/test"
+require_relative "./spec_helper"
 
 describe Nwiki do
-  include Rack::Test::Methods
-
-  def app
-    Nwiki
-  end
-
   subject{ last_response }
 
   context "when accessed '/'" do
