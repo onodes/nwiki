@@ -14,6 +14,7 @@ describe Nwiki do
   context "when get data"
   context "given specify rootpath of data"
   context "when get data does not exist"
+  context "when access invalid path"
 
   # v0.2
   context "when access summary"
