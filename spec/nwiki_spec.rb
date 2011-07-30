@@ -1,18 +1,30 @@
+# -*- coding: utf-8 -*-
 require_relative "./spec_helper"
 
 describe Nwiki do
+  Nwiki::ROOT_PATH = "spec/data" # FIXME
+
   subject{ last_response }
 
-  context "when accessed '/'" do
-    before do
-      get "/"
-    end
-    it{ should be_ok }
-  end
-
   # v0.1 now!
-  context "when get data"
-  context "given specify rootpath of data"
+  describe "get data" do
+    context "when data exist" do
+      context "when access a content" do
+        before do
+          get "/a_content"
+        end
+        it{ should be_ok }
+        it{ subject.body.should == "a content." }
+      end
+      context "when access other content" do
+        before do
+          get "/dir/other_content"
+        end
+        it{ should be_ok }
+        it{ subject.body.should == "日本語による別のコンテンツ." }
+      end
+    end
+  end
   context "when get data does not exist"
   context "when access invalid path"
 
