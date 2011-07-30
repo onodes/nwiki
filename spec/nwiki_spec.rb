@@ -30,6 +30,12 @@ describe Nwiki do
       end
       it{ should be_not_found }
     end
+    context "when access invalid path" do
+      before do
+        get "/../hoge"
+      end
+      it{ should be_forbidden }
+    end
   end
 
   # v0.2
