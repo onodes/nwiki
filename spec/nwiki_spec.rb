@@ -47,6 +47,7 @@ describe Nwiki do
   context "given get org-mode data"
 
   # TODO
+  context "when configure data path"
   context "given get data include image path"
   context "when search data"
   context "when search tag"
