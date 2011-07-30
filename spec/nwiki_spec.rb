@@ -10,30 +10,22 @@ describe Nwiki do
   describe "get data" do
     context "when data exist" do
       context "when access a content" do
-        before do
-          get "/a_content"
-        end
+        before { get "/a_content" }
         it{ should be_ok }
         it{ subject.body.should == "a content." }
       end
       context "when access other content" do
-        before do
-          get "/dir/other_content"
-        end
+        before { get "/dir/other_content" }
         it{ should be_ok }
         it{ subject.body.should == "日本語による別のコンテンツ." }
       end
     end
     context "when get data does not exist" do
-      before do
-        get "/blah_blah_blah"
-      end
+      before { get "/blah_blah_blah" }
       it{ should be_not_found }
     end
     context "when access invalid path" do
-      before do
-        get "/../hoge"
-      end
+      before { get "/../hoge" }
       it{ should be_forbidden }
     end
   end
