@@ -24,9 +24,13 @@ describe Nwiki do
         it{ subject.body.should == "日本語による別のコンテンツ." }
       end
     end
+    context "when get data does not exist" do
+      before do
+        get "/blah_blah_blah"
+      end
+      it{ should be_not_found }
+    end
   end
-  context "when get data does not exist"
-  context "when access invalid path"
 
   # v0.2
   context "when access summary"

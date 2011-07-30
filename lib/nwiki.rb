@@ -4,7 +4,10 @@ require_relative "nwiki/version"
 module Nwiki
   ROOT_PATH = "."
   def self.call(env)
-    body = File.read(ROOT_PATH + env['PATH_INFO']) rescue nil
-    [200, {"Content-Type" => "text/plain"}, [body || '']]
+    begin
+      [200, {"Content-Type" => "text/plain"}, [File.read(ROOT_PATH + env["PATH_INFO"])]]
+    rescue
+      [404, {"Content-Type" => "text/plain"}, ["not found."]]
+    end
   end
 end
