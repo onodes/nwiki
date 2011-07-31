@@ -31,7 +31,13 @@ describe Nwiki do
   end
 
   # v0.2
-  context "when access summary"
+  describe "get summary" do
+    context "when access directory" do
+      before { get "/dir" }
+      it{ should be_ok }
+      it{ subject.body.should == "dir/dir2/another_content\ndir/other_content" }
+    end
+  end
   context "when access feed"
 
   # v0.3
