@@ -32,8 +32,13 @@ describe Nwiki do
 
   # v0.2
   describe "get summary" do
-    context "when access directory" do
+    context "when access directory without slash" do
       before { get "/dir" }
+      it{ should be_ok }
+      it{ subject.body.should == "dir/dir2/another_content\ndir/other_content" }
+    end
+    context "when access directory with slash" do
+      before { get "/dir/" }
       it{ should be_ok }
       it{ subject.body.should == "dir/dir2/another_content\ndir/other_content" }
     end

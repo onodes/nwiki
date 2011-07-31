@@ -4,7 +4,7 @@ require_relative "nwiki/version"
 module Nwiki
   ROOT_PATH = "."
   def self.call(env)
-    path = env["PATH_INFO"].gsub(/^\//){ '' }
+    path = strip_slash(env["PATH_INFO"])
     return [403, {"Content-Type" => "text/plain"}, ["forbidden."]] if path.include? ".."
     Dir.chdir(ROOT_PATH) do
       case
@@ -17,5 +17,9 @@ module Nwiki
         [404, {"Content-Type" => "text/plain"}, ["not found."]]
       end
     end
+  end
+
+  def self.strip_slash(str)
+    str.gsub(/^\//){ '' }.gsub(/\/$/){ '' }
   end
 end
