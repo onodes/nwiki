@@ -43,13 +43,13 @@ describe Nwiki do
       it{ subject.body.should == "dir/dir2/another_content\ndir/other_content" }
     end
   end
-  context "when access feed"
 
   # v0.3
   context "given get some type"
   context "given get org-mode data"
 
   # TODO
+  context "when access feed"
   context "when configure data path"
   context "given get data include image path"
   context "when search data"
