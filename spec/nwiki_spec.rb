@@ -6,18 +6,18 @@ describe Nwiki do
 
   subject{ last_response }
 
-  # v0.1 now!
+  # v0.1
   describe "get data" do
     context "when data exist" do
       context "when access a content" do
         before { get "/a_content" }
         it{ should be_ok }
-        it{ subject.body.should == "a content." }
+        it{ subject.body.should == "<p class=\"title\">a content.</p>\n" }
       end
       context "when access other content" do
         before { get "/dir/other_content" }
         it{ should be_ok }
-        it{ subject.body.should == "日本語による別のコンテンツ." }
+        it{ subject.body.should == "<p class=\"title\">日本語による別のコンテンツ.</p>\n" }
       end
     end
     context "when get data does not exist" do
@@ -44,9 +44,13 @@ describe Nwiki do
     end
   end
 
-  # v0.3
-  context "given get some type"
-  context "given get org-mode data"
+  # v0.3 now!
+  describe "markup" do
+    context "given get org-mode" do
+      before { get "/org-mode_content" }
+      it { subject.body.should == "<h1 class=\"title\">ORG-HEADER</h1>\n<p>This is org-mode.</p>\n" }
+    end
+  end
 
   # TODO
   context "when access feed"

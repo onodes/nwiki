@@ -5,6 +5,7 @@ gemspec
 
 gem "rake"
 gem "rack"
+gem "org-ruby"
 
 group :development do
   gem "rspec"
