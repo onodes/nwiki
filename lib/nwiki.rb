@@ -1,6 +1,8 @@
-require_relative "nwiki/version"
+require "bundler/setup"
 require "rack"
 require "org-ruby"
+
+require_relative "nwiki/version"
 
 module Nwiki
   ROOT_PATH = "."
@@ -13,7 +15,7 @@ module Nwiki
         search_dir = path + "/**/*"
         [200, {"Content-Type" => "text/plain"}, [Dir.glob(search_dir).select{ |path| File.file?(path) }.sort.join("\n")]]
       when FileTest.file?(path)
-        [200, {"Content-Type" => "text/plain"}, [Orgmode::Parser.new(File.read(path)).to_html]]
+        [200, {"Content-Type" => "text/plain"}, [Orgmode::Parser.new(File.read(path), 1).to_html]]
       else
         [404, {"Content-Type" => "text/plain"}, ["not found."]]
       end

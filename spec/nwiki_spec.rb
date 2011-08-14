@@ -48,12 +48,14 @@ describe Nwiki do
   describe "markup" do
     context "given get org-mode" do
       before { get "/org-mode_content" }
-      it { subject.body.should == "<h1 class=\"title\">ORG-HEADER</h1>\n<p>This is org-mode.</p>\n" }
+      it { subject.body.should == "<h2 class=\"title\">ORG-HEADER</h2>\n<p>This is org-mode.</p>\n" }
     end
   end
 
-  # TODO
+  # v0.4
   context "when access feed"
+
+  # TODO
   context "when configure data path"
   context "given get data include image path"
   context "when search data"

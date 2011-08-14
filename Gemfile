@@ -5,7 +5,8 @@ gemspec
 
 gem "rake"
 gem "rack"
-gem "org-ruby"
+gem "org-ruby", :git => "git://github.com/niku/org-ruby.git"
+gem "rubypants"
 
 group :development do
   gem "rspec"
