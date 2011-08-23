@@ -1,3 +1,3 @@
 require './lib/nwiki'
 
-run Nwiki
+run Nwiki::Articles.new('./spec/data')
