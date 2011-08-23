@@ -37,12 +37,12 @@ module Nwiki
         context "when access directory without slash" do
           before { get "/dir" }
           it{ should be_ok }
-          it{ subject.body.should == "dir/dir2/another_content\ndir/other_content" }
+          it{ subject.body.should == "./dir/dir2/another_content\n./dir/other_content" }
         end
         context "when access directory with slash" do
           before { get "/dir/" }
           it{ should be_ok }
-          it{ subject.body.should == "dir/dir2/another_content\ndir/other_content" }
+          it{ subject.body.should == "./dir/dir2/another_content\n./dir/other_content" }
         end
       end
 
@@ -51,6 +51,26 @@ module Nwiki
           before { get "/org-mode_content" }
           it { subject.body.should == "<h2 class=\"title\">ORG-HEADER</h2>\n<p>This is org-mode.</p>\n" }
         end
+      end
+    end
+
+    describe "#convert_file_path" do
+      subject{ Articles.new.convert_file_path path }
+      context "given '/'" do
+        let(:path){ "/" }
+        it{ subject.should == "./" }
+      end
+      context "given '/a_content'" do
+        let(:path){ "/a_content" }
+        it{ subject.should == "./a_content" }
+      end
+      context "given '/a_content/'" do
+        let(:path){ "/a_content/" }
+        it{ subject.should == "./a_content" }
+      end
+      context "given '/dir/dir2/another_content'" do
+        let(:path){ "/dir/dir2/another_content" }
+        it{ subject.should == "./dir/dir2/another_content" }
       end
     end
   end
