@@ -23,8 +23,8 @@ module Nwiki
     end
 
     def convert_file_path(str)
-      return './' if str == '/'
-      '.' + str.gsub(/\/$/){ '' }
+      return './' if str == '/articles'
+      '.' + str.gsub(/^\/articles/){ '' }.gsub(/\/$/){ '' }
     end
   end
 end
