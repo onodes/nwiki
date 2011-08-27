@@ -2,8 +2,9 @@ require "org-ruby"
 
 module Nwiki
   class Articles
-    def initialize root_path = "."
+    def initialize root_path = ".", path_prefix = "/articles"
       @root_path = root_path
+      @path_prefix = path_prefix
     end
 
     def call env
@@ -23,8 +24,8 @@ module Nwiki
     end
 
     def convert_file_path(str)
-      return './' if str == '/articles'
-      '.' + str.gsub(/^\/articles/){ '' }.gsub(/\/$/){ '' }
+      return './' if str == @path_prefix
+      '.' + str.gsub(/^#{@path_prefix}/){ '' }.gsub(/\/$/){ '' }
     end
   end
 end
