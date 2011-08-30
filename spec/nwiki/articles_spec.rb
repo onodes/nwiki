@@ -5,7 +5,7 @@ module Nwiki
   describe Articles do
     describe "functional test" do
       def app
-        Rack::Lint.new(Nwiki::Articles.new('./spec/data'))
+        Rack::Lint.new(Articles.new(CONFIG))
       end
 
       subject{ last_response }
@@ -55,7 +55,7 @@ module Nwiki
     end
 
     describe "#convert_file_path" do
-      subject{ Articles.new.convert_file_path path }
+      subject{ Articles.new(CONFIG).convert_file_path path }
       context "given '/articles'" do
         let(:path){ "/articles" }
         it{ subject.should == "./" }

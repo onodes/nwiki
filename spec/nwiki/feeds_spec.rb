@@ -5,7 +5,7 @@ module Nwiki
   describe Feeds do
     describe "functional test" do
       def app
-        Rack::Lint.new(Nwiki::Feeds.new)
+        Rack::Lint.new(Feeds.new(CONFIG))
       end
 
       subject{ last_response }

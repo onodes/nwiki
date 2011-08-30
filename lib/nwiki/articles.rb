@@ -2,15 +2,15 @@ require "org-ruby"
 
 module Nwiki
   class Articles
-    def initialize root_path = ".", path_prefix = "/articles"
-      @root_path = root_path
-      @path_prefix = path_prefix
+    def initialize opt
+      @data_file_directory = opt[:data_file_directory]
+      @articles_url_prefix = opt[:articles_url_prefix]
     end
 
     def call env
       file_path = convert_file_path(env["PATH_INFO"])
       return [403, {"Content-Type" => "text/plain"}, ["forbidden."]] if file_path.include? ".."
-      Dir.chdir(@root_path) do
+      Dir.chdir(@data_file_directory) do
         case
         when FileTest.directory?(file_path)
           search_dir = file_path + "/**/*"
@@ -24,8 +24,8 @@ module Nwiki
     end
 
     def convert_file_path(str)
-      return './' if str == @path_prefix
-      '.' + str.gsub(/^#{@path_prefix}/){ '' }.gsub(/\/$/){ '' }
+      return './' if str == @articles_url_prefix
+      '.' + str.gsub(/^#{@articles_url_prefix}/){ '' }.gsub(/\/$/){ '' }
     end
   end
 end

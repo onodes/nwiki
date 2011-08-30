@@ -4,23 +4,28 @@ require 'org-ruby'
 
 module Nwiki
   class Feeds
-    def initialize root_path = ".", path_prefix = "/feeds"
-      @root_path = root_path
-      @path_prefix = path_prefix
+    def initialize opt
+      @data_file_directory = opt[:data_file_directory]
+      @feeds_url_prefix = opt[:feeds_url_prefix]
+      @articles_url_prefix = opt[:articles_url_prefix]
+      @site_title = opt[:site_title]
+      @site_description = opt[:site_description]
+      @site_link = opt[:site_link]
+      @site_author = opt[:site_author]
     end
 
     def call env
       feed = RSS::Maker.make("atom") do |maker|
-        maker.channel.about = "http://niku.name/feeds/index"
-        maker.channel.title = "ヽ（´・肉・｀）ノログ"
-        maker.channel.description = "How do we fighting without fighting?"
-        maker.channel.link = "http://niku.name/"
-        maker.channel.author = "niku"
+        maker.channel.about = @site_link + @feeds_url_prefix
+        maker.channel.title = @site_title
+        maker.channel.description = @site_description
+        maker.channel.link = @site_link
+        maker.channel.author = @site_author
         maker.channel.date = Time.now
         maker.items.do_sort = true
         files.each{ |f|
           maker.items.new_item { |item|
-            item.link = "http://niku.name/articles/#{f.path}"
+            item.link = "#{@site_link}#{@article_url_prefix}/#{f.path}"
             item.title = File.basename(f.path)
             item.date = f.mtime
           }
@@ -30,7 +35,7 @@ module Nwiki
     end
 
     def files
-      Dir.chdir(@root_path) do
+      Dir.chdir(@data_file_directory) do
         Dir.glob('**/*').
           inject([]){ |m, p| File.file?(p) ? m + [File.new(p)] : m }.
           sort_by{ |f| f.mtime }.
