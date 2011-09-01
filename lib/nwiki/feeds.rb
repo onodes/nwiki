@@ -31,7 +31,7 @@ module Nwiki
           }
         }
       end
-      [200, {"Content-Type" => "text/plain"}, [feed.to_s]]
+      [200, {"Content-Type" => "text/xml"}, [feed.to_s]]
     end
 
     def files
