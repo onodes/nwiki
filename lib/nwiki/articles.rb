@@ -1,3 +1,4 @@
+require "grit"
 require "org-ruby"
 
 module Nwiki
@@ -10,22 +11,23 @@ module Nwiki
     def call env
       file_path = convert_file_path(env["PATH_INFO"])
       return [403, {"Content-Type" => "text/html"}, ["forbidden."]] if file_path.include? ".."
-      Dir.chdir(@data_file_directory) do
-        case
-        when FileTest.directory?(file_path)
-          search_dir = file_path + "/**/*"
-          [200, {"Content-Type" => "text/html"}, [Dir.glob(search_dir).select{ |path| File.file?(path) }.sort.join("\n")]]
-        when FileTest.file?(file_path)
-          [200, {"Content-Type" => "text/html"}, [Orgmode::Parser.new(File.read(file_path), 1).to_html]]
-        else
-          [404, {"Content-Type" => "text/html"}, ["not found."]]
-        end
+      tree = Grit::Repo.new(@data_file_directory).commits.first.tree
+      case result = tree/file_path
+      when Grit::Tree
+        [200, {"Content-Type" => "text/html"}, [result.contents.map(&:name).sort.join("\n")]]
+      when Grit::Blob
+        [200, {"Content-Type" => "text/html"}, [Orgmode::Parser.new(result.data.force_encoding('utf-8'), 1).to_html]]
+      else
+        [404, {"Content-Type" => "text/html"}, ["not found."]]
       end
     end
 
     def convert_file_path(str)
-      return './' if str == @articles_url_prefix
-      '.' + str.gsub(/^#{@articles_url_prefix}/){ '' }.gsub(/\/$/){ '' }
+      return '/' if str == @articles_url_prefix
+      str.
+        gsub(/^#{@articles_url_prefix}/){ '' }.
+        gsub(/^\//){ '' }.
+        gsub(/\/$/){ '' }
     end
   end
 end

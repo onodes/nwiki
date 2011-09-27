@@ -2,7 +2,7 @@
 require './lib/nwiki'
 
 CONF = {
-  data_file_directory: './spec/data',
+  data_file_directory: './spec/data/dot.git',
   feeds_url_prefix: '/feeds',
   articles_url_prefix: '/articles',
   site_title: "ヽ（´・肉・｀）ノログ",
