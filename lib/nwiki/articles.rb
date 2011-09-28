@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require "grit"
 require "org-ruby"
 
@@ -23,11 +24,11 @@ module Nwiki
     end
 
     def convert_file_path(str)
-      return '/' if str == @articles_url_prefix
-      str.
-        gsub(/^#{@articles_url_prefix}/){ '' }.
-        gsub(/^\//){ '' }.
-        gsub(/\/$/){ '' }
+      path = str.
+        gsub(%r!^#{@articles_url_prefix}!, '').
+        gsub(%r!^/!, '').
+        gsub(%r!/$!, '')
+      path.empty? ? '/' : path
     end
   end
 end

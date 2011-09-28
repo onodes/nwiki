@@ -60,6 +60,10 @@ module Nwiki
         let(:path){ "/articles" }
         it{ subject.should == "/" }
       end
+      context "given '/articles/'" do
+        let(:path){ "/articles/" }
+        it{ subject.should == "/" }
+      end
       context "given '/articles/a_content'" do
         let(:path){ "/articles/a_content" }
         it{ subject.should == "a_content" }
@@ -67,6 +71,14 @@ module Nwiki
       context "given '/articles/a_content/'" do
         let(:path){ "/articles/a_content/" }
         it{ subject.should == "a_content" }
+      end
+      context "given '/articles/dir'" do
+        let(:path){ "/articles/dir" }
+        it{ subject.should == "dir" }
+      end
+      context "given '/articles/dir/'" do
+        let(:path){ "/articles/dir" }
+        it{ subject.should == "dir" }
       end
       context "given '/articles/dir/dir2/another_content'" do
         let(:path){ "/articles/dir/dir2/another_content" }
