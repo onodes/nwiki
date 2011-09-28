@@ -15,7 +15,7 @@ module Nwiki
       tree = Grit::Repo.new(@data_file_directory).commits.first.tree
       case result = tree/file_path
       when Grit::Tree
-        [200, {"Content-Type" => "text/html"}, [result.contents.map(&:name).sort.join("\n")]]
+        [200, {"Content-Type" => "text/html"}, ["<ul>" + result.contents.map(&:name).sort.map{ |n| %Q!<li><a href="#{n}">#{n}</a></li>! }.join("\n") + "</ul>"]]
       when Grit::Blob
         [200, {"Content-Type" => "text/html"}, [Orgmode::Parser.new(result.data.force_encoding('utf-8'), 1).to_html]]
       else
