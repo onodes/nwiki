@@ -35,8 +35,7 @@ module Nwiki
     def convert_file_path(str)
       path = str.
         gsub(%r!^#{@articles_url_prefix}!, '').
-        gsub(%r!^/!, '').
-        gsub(%r!/$!, '')
+        gsub(%r!^/!, '')
       path.empty? ? '/' : path
     end
   end

@@ -70,15 +70,15 @@ module Nwiki
       end
       context "given '/articles/a_content/'" do
         let(:path){ "/articles/a_content/" }
-        it{ subject.should == "a_content" }
+        it{ subject.should == "a_content/" }
       end
       context "given '/articles/dir'" do
         let(:path){ "/articles/dir" }
         it{ subject.should == "dir" }
       end
       context "given '/articles/dir/'" do
-        let(:path){ "/articles/dir" }
-        it{ subject.should == "dir" }
+        let(:path){ "/articles/dir/" }
+        it{ subject.should == "dir/" }
       end
       context "given '/articles/dir/dir2/another_content'" do
         let(:path){ "/articles/dir/dir2/another_content" }
