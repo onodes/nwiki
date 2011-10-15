@@ -35,7 +35,8 @@ module Nwiki
 
       describe "get summary" do
         context "when access directory without slash" do
-          before { get "/articles/dir" }
+          before { get "/articles/dir"; follow_redirect! }
+          it{ last_request.url.should =~ %r!/articles/dir/$! }
           it{ should be_ok }
           it{ subject.body.should == "<ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul>" }
         end
