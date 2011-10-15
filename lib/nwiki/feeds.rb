@@ -23,24 +23,17 @@ module Nwiki
         maker.channel.author = @site_author
         maker.channel.date = Time.now
         maker.items.do_sort = true
-        files.each{ |f|
-          maker.items.new_item { |item|
-            item.link = "#{@site_link}#{@article_url_prefix}/#{f.path}"
-            item.title = File.basename(f.path)
-            item.date = f.mtime
+        Grit::Repo.new(@data_file_directory).commits.map{ |history|
+          history.tree.contents.map{ |content|
+            maker.items.new_item { |item|
+              item.link = "#{@site_link}#{@article_url_prefix}/#{content.name}" #TODO
+              item.title = content.name
+              item.date = history.authored_date
+            }
           }
-        }
+        }.flatten
       end
       [200, {"Content-Type" => "text/xml"}, [feed.to_s]]
-    end
-
-    def files
-      Dir.chdir(@data_file_directory) do
-        Dir.glob('**/*').
-          inject([]){ |m, p| File.file?(p) ? m + [File.new(p)] : m }.
-          sort_by{ |f| f.mtime }.
-          reverse
-      end
     end
   end
 end

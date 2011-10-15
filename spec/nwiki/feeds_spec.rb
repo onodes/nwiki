@@ -12,7 +12,9 @@ module Nwiki
 
       describe "get root" do
         before { get "/feeds/index" }
+        let(:rss){ RSS::Parser.parse(subject.body) }
         it{ should be_ok }
+        it{ rss.should_not be_nil }
       end
     end
   end
