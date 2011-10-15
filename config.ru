@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require './lib/nwiki'
 
+ENV['RACK_ENV'] ||= "development"
 CONF = {
   data_file_directory: './spec/data/dot.git',
   feeds_url_prefix: '/feeds',
@@ -10,6 +11,11 @@ CONF = {
   site_link: "http://niku.name",
   site_author: "niku",
 }
+
+if ENV['RACK_ENV'] == "development"
+  use Rack::Reloader
+  use Rack::Lint
+end
 
 map CONF[:feeds_url_prefix] do
   run Nwiki::Feeds.new(CONF)
