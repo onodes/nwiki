@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require_relative "../spec_helper"
+require 'uri'
 
 module Nwiki
   describe Articles do
@@ -18,9 +19,9 @@ module Nwiki
             it{ subject.body.should == "<p class=\"title\">a content.</p>\n" }
           end
           context "when access other content" do
-            before { get "/articles/dir/other_content" }
+            before { get URI.escape("/articles/日本語ディレクトリ/日本語コンテント") }
             it{ should be_ok }
-            it{ subject.body.should == "<p class=\"title\">日本語による別のコンテンツ.</p>\n" }
+            it{ subject.body.should == "<h2 class=\"title\">日本語コンテント</h2>\n" }
           end
         end
         context "when get data does not exist" do

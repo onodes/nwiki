@@ -41,7 +41,7 @@ module Nwiki
       path = str.
         gsub(%r!^#{@articles_url_prefix}!, '').
         gsub(%r!^/!, '')
-      path.empty? ? '/' : path
+      path.empty? ? '/' : URI.unescape(path).force_encoding('UTF-8')
     end
   end
 end
