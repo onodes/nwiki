@@ -8,6 +8,7 @@ gem "rack"
 gem "org-ruby", :git => "git://github.com/niku/org-ruby.git", :branch => "fix_ruby19"
 gem "grit", :git => "git://github.com/niku/grit.git", :branch => "fix_multibyte"
 gem "rubypants"
+gem 'rack-google-analytics', :require => 'rack/google-analytics'
 
 group :development do
   gem "rspec"

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require './lib/nwiki'
+require 'rack/google-analytics'
 
 ENV['RACK_ENV'] ||= "development"
 CONF = {
@@ -17,6 +18,8 @@ if ENV['RACK_ENV'] == "development"
   use Rack::Reloader
   use Rack::Lint
 end
+
+# use Rack::GoogleAnalytics, :tracker => 'UA-xxxxxx-x'
 
 map CONF[:feeds_url_prefix] do
   run Nwiki::Feeds.new(CONF)
