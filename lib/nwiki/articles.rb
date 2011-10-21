@@ -17,7 +17,7 @@ module Nwiki
       case result = tree/file_path
       when Grit::Tree
         if env["PATH_INFO"] =~ /\/$/
-          [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, ["<ul>" + result.contents.map{ |c|
+          [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, ["<!DOCTYPE html><html><head></head><body><<ul>" + result.contents.map{ |c|
                 case c
                 when Grit::Tree
                   %Q!<li><a href="#{c.name}/">#{c.name}/</a></li>!
@@ -26,13 +26,13 @@ module Nwiki
                 else
                   # TODO
                 end
-              }.sort.join("\n") + "</ul>"]]
+              }.sort.join("\n") + "</ul></body></html>"]]
         else
           request_path = env["SCRIPT_NAME"] + env["PATH_INFO"]
           [301, {"Content-Type" => "text/html; charset=#{@file_encoding}", "Location" => request_path + "/"}, ["redirect."]]
         end
       when Grit::Blob
-        [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [Orgmode::Parser.new(result.data.force_encoding(@file_encoding), 1).to_html]]
+        [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, ["<!DOCTYPE html><html><head></head><body>" + Orgmode::Parser.new(result.data.force_encoding(@file_encoding), 1).to_html + "</body></html>"]]
       else
         [404, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, ["not found."]]
       end

@@ -17,13 +17,13 @@ module Nwiki
             before { get "/articles/a_content" }
             it{ should be_ok }
             it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
-            it{ subject.body.should == "<p class=\"title\">a content.</p>\n" }
+            it{ subject.body.should == "<!DOCTYPE html><html><head></head><body><p class=\"title\">a content.</p>\n</body></html>" }
           end
           context "when access other content" do
             before { get URI.escape("/articles/日本語ディレクトリ/日本語コンテント") }
             it{ should be_ok }
             it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
-            it{ subject.body.should == "<h2 class=\"title\">日本語コンテント</h2>\n" }
+            it{ subject.body.should == "<!DOCTYPE html><html><head></head><body><h2 class=\"title\">日本語コンテント</h2>\n</body></html>" }
           end
         end
         context "when get data does not exist" do
@@ -44,13 +44,13 @@ module Nwiki
           it{ last_request.url.should =~ %r!/articles/dir/$! }
           it{ should be_ok }
           it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
-          it{ subject.body.should == "<ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul>" }
+          it{ subject.body.should == "<!DOCTYPE html><html><head></head><body><<ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul></body></html>" }
         end
         context "when access directory with slash" do
           before { get "/articles/dir/" }
           it{ should be_ok }
           it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
-          it{ subject.body.should == "<ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul>" }
+          it{ subject.body.should == "<!DOCTYPE html><html><head></head><body><<ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul></body></html>" }
         end
       end
 
@@ -58,7 +58,7 @@ module Nwiki
         context "given get org-mode" do
           before { get "/articles/org-mode_content" }
           it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
-          it { subject.body.should == "<h2 class=\"title\">ORG-HEADER</h2>\n<p>This is org-mode.</p>\n" }
+          it { subject.body.should == "<!DOCTYPE html><html><head></head><body><h2 class=\"title\">ORG-HEADER</h2>\n<p>This is org-mode.</p>\n</body></html>" }
         end
       end
     end
