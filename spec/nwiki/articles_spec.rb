@@ -16,21 +16,25 @@ module Nwiki
           context "when access a content" do
             before { get "/articles/a_content" }
             it{ should be_ok }
+            it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
             it{ subject.body.should == "<p class=\"title\">a content.</p>\n" }
           end
           context "when access other content" do
             before { get URI.escape("/articles/日本語ディレクトリ/日本語コンテント") }
             it{ should be_ok }
+            it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
             it{ subject.body.should == "<h2 class=\"title\">日本語コンテント</h2>\n" }
           end
         end
         context "when get data does not exist" do
           before { get "/articles/blah_blah_blah" }
           it{ should be_not_found }
+          it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
         end
         context "when access invalid path" do
           before { get "/articles/../hoge" }
           it{ should be_forbidden }
+          it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
         end
       end
 
@@ -39,11 +43,13 @@ module Nwiki
           before { get "/articles/dir"; follow_redirect! }
           it{ last_request.url.should =~ %r!/articles/dir/$! }
           it{ should be_ok }
+          it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
           it{ subject.body.should == "<ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul>" }
         end
         context "when access directory with slash" do
           before { get "/articles/dir/" }
           it{ should be_ok }
+          it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
           it{ subject.body.should == "<ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul>" }
         end
       end
@@ -51,6 +57,7 @@ module Nwiki
       describe "markup" do
         context "given get org-mode" do
           before { get "/articles/org-mode_content" }
+          it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
           it { subject.body.should == "<h2 class=\"title\">ORG-HEADER</h2>\n<p>This is org-mode.</p>\n" }
         end
       end

@@ -10,6 +10,7 @@ CONF = {
   site_description: "How do we fighting without fighting?",
   site_link: "http://niku.name",
   site_author: "niku",
+  file_encoding: "UTF-8",
 }
 
 if ENV['RACK_ENV'] == "development"

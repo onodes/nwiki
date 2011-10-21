@@ -7,6 +7,7 @@ module Nwiki
     def initialize opt
       @data_file_directory = opt[:data_file_directory]
       @articles_url_prefix = opt[:articles_url_prefix]
+      @file_encoding = opt[:file_encoding]
     end
 
     def call env
@@ -16,7 +17,7 @@ module Nwiki
       case result = tree/file_path
       when Grit::Tree
         if env["PATH_INFO"] =~ /\/$/
-          [200, {"Content-Type" => "text/html"}, ["<ul>" + result.contents.map{ |c|
+          [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, ["<ul>" + result.contents.map{ |c|
                 case c
                 when Grit::Tree
                   %Q!<li><a href="#{c.name}/">#{c.name}/</a></li>!
@@ -28,12 +29,12 @@ module Nwiki
               }.sort.join("\n") + "</ul>"]]
         else
           request_path = env["SCRIPT_NAME"] + env["PATH_INFO"]
-          [301, {"Content-Type" => "text/html", "Location" => request_path + "/"}, ["redirect."]]
+          [301, {"Content-Type" => "text/html; charset=#{@file_encoding}", "Location" => request_path + "/"}, ["redirect."]]
         end
       when Grit::Blob
-        [200, {"Content-Type" => "text/html"}, [Orgmode::Parser.new(result.data.force_encoding('utf-8'), 1).to_html]]
+        [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [Orgmode::Parser.new(result.data.force_encoding(@file_encoding), 1).to_html]]
       else
-        [404, {"Content-Type" => "text/html"}, ["not found."]]
+        [404, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, ["not found."]]
       end
     end
 
@@ -41,7 +42,7 @@ module Nwiki
       path = str.
         gsub(%r!^#{@articles_url_prefix}!, '').
         gsub(%r!^/!, '')
-      path.empty? ? '/' : URI.unescape(path).force_encoding('UTF-8')
+      path.empty? ? '/' : URI.unescape(path).force_encoding(@file_encoding)
     end
   end
 end
