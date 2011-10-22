@@ -8,6 +8,7 @@ module Nwiki
       @data_file_directory = opt[:data_file_directory]
       @articles_url_prefix = opt[:articles_url_prefix]
       @file_encoding = opt[:file_encoding]
+      @site_title = opt[:site_title].force_encoding(@file_encoding)
     end
 
     def call env
@@ -27,13 +28,13 @@ module Nwiki
               # TODO
             end
           }.sort.join("\n") + "</ul>"
-          [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [wrap_html{ list }]]
+          [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [wrap_html(@site_title, file_path.force_encoding(@file_encoding)){ list.force_encoding(@file_encoding) }]]
         else
           request_path = env["SCRIPT_NAME"] + env["PATH_INFO"]
           [301, {"Content-Type" => "text/plane; charset=#{@file_encoding}", "Location" => request_path + "/"}, ["redirect."]]
         end
       when Grit::Blob
-        [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [wrap_html{ Orgmode::Parser.new(result.data.force_encoding(@file_encoding), 1).to_html }]]
+        [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [wrap_html(@site_title, result.name.force_encoding(@file_encoding)){ Orgmode::Parser.new(result.data.force_encoding(@file_encoding), 1).to_html }]]
       else
         [404, {"Content-Type" => "text/plane; charset=#{@file_encoding}"}, ["not found."]]
       end
@@ -46,9 +47,9 @@ module Nwiki
       path.empty? ? '/' : URI.unescape(path).force_encoding(@file_encoding)
     end
 
-    def wrap_html
+    def wrap_html site_title, article_title
       html = ""
-      html << "<!DOCTYPE html><html><head></head><body>"
+      html << "<!DOCTYPE html><html><head><title>#{article_title} - #{site_title}</title></head><body><h1>#{site_title}</h1>"
       html << yield if block_given?
       html << "</body></html>"
     end
