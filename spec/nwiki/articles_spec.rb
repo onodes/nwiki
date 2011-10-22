@@ -29,12 +29,12 @@ module Nwiki
         context "when get data does not exist" do
           before { get "/articles/blah_blah_blah" }
           it{ should be_not_found }
-          it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
+          it{ subject["Content-Type"] == "text/plane; charset=UTF-8" }
         end
         context "when access invalid path" do
           before { get "/articles/../hoge" }
           it{ should be_forbidden }
-          it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
+          it{ subject["Content-Type"] == "text/plane; charset=UTF-8" }
         end
       end
 
