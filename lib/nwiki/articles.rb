@@ -18,7 +18,7 @@ module Nwiki
       case result = tree/file_path
       when Grit::Tree
         if env["PATH_INFO"] =~ /\/$/
-          list = "<ul>" + result.contents.map{ |c|
+          list = "<ul><li><a href=\"../\">../</a></li>" + result.contents.map{ |c|
             case c
             when Grit::Tree
               %Q!<li><a href="#{c.name}/">#{c.name}/</a></li>!

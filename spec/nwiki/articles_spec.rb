@@ -44,13 +44,13 @@ module Nwiki
           it{ last_request.url.should =~ %r!/articles/dir/$! }
           it{ should be_ok }
           it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
-          it{ subject.body.should == "<!DOCTYPE html><html><head><title>dir/ - ヽ（´・肉・｀）ノログ</title></head><body><h1>ヽ（´・肉・｀）ノログ</h1><ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul></body></html>" }
+          it{ subject.body.should == "<!DOCTYPE html><html><head><title>dir/ - ヽ（´・肉・｀）ノログ</title></head><body><h1>ヽ（´・肉・｀）ノログ</h1><ul><li><a href=\"../\">../</a></li><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul></body></html>" }
         end
         context "when access directory with slash" do
           before { get "/articles/dir/" }
           it{ should be_ok }
           it{ subject["Content-Type"] == "text/html; charset=UTF-8" }
-          it{ subject.body.should == "<!DOCTYPE html><html><head><title>dir/ - ヽ（´・肉・｀）ノログ</title></head><body><h1>ヽ（´・肉・｀）ノログ</h1><ul><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul></body></html>" }
+          it{ subject.body.should == "<!DOCTYPE html><html><head><title>dir/ - ヽ（´・肉・｀）ノログ</title></head><body><h1>ヽ（´・肉・｀）ノログ</h1><ul><li><a href=\"../\">../</a></li><li><a href=\"dir2/\">dir2/</a></li>\n<li><a href=\"other_content\">other_content</a></li></ul></body></html>" }
         end
       end
 
