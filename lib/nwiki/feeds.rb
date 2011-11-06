@@ -26,7 +26,7 @@ module Nwiki
         Grit::Repo.new(@data_file_directory).commits.map{ |history|
           history.tree.contents.map{ |content|
             maker.items.new_item { |item|
-              item.link = "#{@site_link}#{@article_url_prefix}/#{content.name.force_encoding('utf-8')}"
+              item.link = "#{@site_link}#{@articles_url_prefix}/#{content.name.force_encoding('utf-8')}"
               item.title = content.name
               item.date = history.authored_date
             }
