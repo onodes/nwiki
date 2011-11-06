@@ -24,13 +24,15 @@ module Nwiki
         maker.channel.date = Time.now
         maker.items.do_sort = true
         Grit::Repo.new(@data_file_directory).commits.map{ |history|
-          history.tree.contents.map{ |content|
-            maker.items.new_item { |item|
-              item.link = "#{@site_link}#{@articles_url_prefix}/#{content.name.force_encoding('utf-8')}"
-              item.title = content.name
-              item.date = history.authored_date
+          history.diffs.map{ |diff|
+            next nil if diff.deleted_file # FIXME how do we view deleted file?
+            maker.items.new_item{ |item|
+              path = diff.b_path.force_encoding('utf-8')
+              item.link = "#{@site_link}#{@articles_url_prefix}/#{path}"
+              item.title = File.basename(path)
+              item.date = history.date
             }
-          }
+          }.compact
         }.flatten
       end
       [200, {"Content-Type" => "text/xml"}, [feed.to_s]]
