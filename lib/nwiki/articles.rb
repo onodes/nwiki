@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require "grit"
 require "org-ruby"
+require "rack/mime"
 
 module Nwiki
   class Articles
@@ -34,7 +35,12 @@ module Nwiki
           [301, {"Content-Type" => "text/plane; charset=#{@file_encoding}", "Location" => request_path + "/"}, ["redirect."]]
         end
       when Grit::Blob
-        [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [wrap_html(@site_title, result.name.force_encoding(@file_encoding)){ Orgmode::Parser.new(result.data.force_encoding(@file_encoding), 1).to_html }]]
+        extname = File.extname(file_path)
+        if extname.empty?
+          [200, {"Content-Type" => "text/html; charset=#{@file_encoding}"}, [wrap_html(@site_title, result.name.force_encoding(@file_encoding)){ Orgmode::Parser.new(result.data.force_encoding(@file_encoding), 1).to_html }]]
+        else
+          [200, {"Content-Type" => Rack::Mime.mime_type(File.extname(file_path), 'text/plain')}, [result.data]]
+        end
       else
         [404, {"Content-Type" => "text/plane; charset=#{@file_encoding}"}, ["not found."]]
       end

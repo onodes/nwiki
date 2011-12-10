@@ -14,7 +14,7 @@ module Nwiki
         before { get "/feeds/index" }
         let(:rss){ RSS::Parser.parse(subject.body) }
         it{ should be_ok }
-        it{ rss.should have(4).items }
+        it{ rss.should have(6).items }
         describe "each item" do
           specify "link should match with http://niku.name/articles" do
             rss.items.map{ |item| item.link.href =~ /http:\/\/niku\.name\/articles\// }.should be_all
