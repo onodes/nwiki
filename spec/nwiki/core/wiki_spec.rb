@@ -44,7 +44,7 @@ module Nwiki
 
         context 'when uses has_foo.git' do
           include_context 'when uses has_foo.git'
-          it { subject.page('foo').should_not be_nil }
+          it { subject.page('foo').class.should eq Page }
         end
       end
     end
