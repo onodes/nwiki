@@ -8,6 +8,10 @@ module Nwiki
       def pages
         []
       end
+
+      def page page_name
+        nil
+      end
     end
   end
 end

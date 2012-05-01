@@ -6,6 +6,7 @@ module Nwiki
       subject { described_class.new('spec/examples/empty.git') }
       it { expect { subject }.not_to raise_error }
       its(:pages) { should eq [] }
+      it { subject.page('foo').should be_nil }
     end
   end
 end
