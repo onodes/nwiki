@@ -10,6 +10,10 @@ module Nwiki
       describe '#filename' do
         its(:filename) { should eq path }
       end
+
+      describe '#name' do
+        its(:name) { should eq File.basename(path, '.*') }
+      end
     end
   end
 end
