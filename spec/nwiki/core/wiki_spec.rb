@@ -7,6 +7,10 @@ module Nwiki
         subject { described_class.new('spec/examples/empty.git') }
       end
 
+      shared_context 'when uses has_foo.git' do
+        subject { described_class.new('spec/examples/has_foo.git') }
+      end
+
       describe '.new' do
         context 'when uses empty.git' do
           include_context 'when uses empty.git'
@@ -18,6 +22,11 @@ module Nwiki
         context 'when uses empty.git' do
           include_context 'when uses empty.git'
           its(:pages) { should eq [] }
+        end
+
+        context 'when uses has_foo.git' do
+          include_context 'when uses has_foo.git'
+          its(:pages) { should have(1).page }
         end
       end
 
