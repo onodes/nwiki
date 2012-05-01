@@ -5,8 +5,12 @@ module Nwiki
         @blob = blob
       end
 
-      def name
+      def filename
         @blob && @blob.name
+      end
+
+      def name
+        File.basename(filename, '.*')
       end
     end
   end

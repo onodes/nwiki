@@ -14,9 +14,7 @@ module Nwiki
       end
 
       def page page_name
-        if page = self.pages.find { |page| File.basename(page.name, '.*') == page_name }
-          Page.new(page)
-        end
+        self.pages.find { |page| page.name == page_name }
       end
     end
   end
