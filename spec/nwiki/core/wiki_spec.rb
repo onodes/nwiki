@@ -1,13 +1,19 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 module Nwiki
   module Core
     describe Wiki do
       shared_context 'when uses empty.git' do
+        # repository denote by `tree` command
+        # '.'
         subject { described_class.new('spec/examples/empty.git') }
       end
 
       shared_context 'when uses has_foo.git' do
+        # repository denote by `tree` command
+        # '.'
+        # '└── foo'
         subject { described_class.new('spec/examples/has_foo.git') }
       end
 
