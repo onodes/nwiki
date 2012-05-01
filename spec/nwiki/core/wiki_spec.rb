@@ -33,6 +33,7 @@ module Nwiki
         context 'when uses has_foo.git' do
           include_context 'when uses has_foo.git'
           its(:pages) { should have(1).page }
+          it { subject.pages.first.class.should eq Page }
         end
       end
 
