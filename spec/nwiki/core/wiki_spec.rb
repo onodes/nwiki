@@ -41,6 +41,11 @@ module Nwiki
           include_context 'when uses empty.git'
           it { subject.page('foo').should be_nil }
         end
+
+        context 'when uses has_foo.git' do
+          include_context 'when uses has_foo.git'
+          it { subject.page('foo').should_not be_nil }
+        end
       end
     end
   end

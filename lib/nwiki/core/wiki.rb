@@ -14,7 +14,7 @@ module Nwiki
       end
 
       def page page_name
-        nil
+        self.pages.find { |page| page.path == page_name }
       end
     end
   end
