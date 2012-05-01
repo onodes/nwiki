@@ -27,7 +27,7 @@ module Nwiki
       describe '#pages' do
         context 'when uses empty.git' do
           include_context 'when uses empty.git'
-          its(:pages) { should eq [] }
+          its(:pages) { should be_empty }
         end
 
         context 'when uses has_foo.git' do
