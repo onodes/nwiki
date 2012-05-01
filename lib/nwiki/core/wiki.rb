@@ -1,6 +1,8 @@
-require_relative 'core/wiki'
-
 module Nwiki
   module Core
+    class Wiki
+    end
   end
 end
+
+
