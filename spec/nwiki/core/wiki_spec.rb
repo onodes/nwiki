@@ -13,7 +13,7 @@ module Nwiki
       shared_context 'when uses has_foo.git' do
         # repository denote by `tree` command
         # '.'
-        # '└── foo'
+        # '└── foo.org'
         subject { described_class.new('spec/examples/has_foo.git') }
       end
 
